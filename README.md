@@ -175,7 +175,7 @@ The filter allocates a set of buffers to retain deferred data.
     } // end for
 ```
 
-This buffer indices are provided to a user mode client with each data notification as `notification.eventData.inputoutput.buffers` array that contains indicies of buffers with data for a request. The buffers are shared with the user mode client by calling `IOConnectMapMemory` with `kt_NkeAclTypeSocketDataBase+index` where the index is in the range `[0, kt_NkeSocketBuffersNumber - 1]` , this results in calling the filter's `NkeIOUserClient::clientMemoryForType` 
+The buffer indices are provided to a user mode client with each data notification as `notification.eventData.inputoutput.buffers` array that contains indicies of buffers with data for a request. The buffers are shared with the user mode client by calling `IOConnectMapMemory` with `kt_NkeAclTypeSocketDataBase+index` where the index is in the range `[0, kt_NkeSocketBuffersNumber - 1]` , this results in calling the filter's `NkeIOUserClient::clientMemoryForType` 
 
 ```
 IOReturn
@@ -238,7 +238,7 @@ For example the user mode client can map the kernel buffers to its address space
 When an event is received it can access a buffer with data as
 
 ```
-data = sharedBuffers[notification.eventData.inputoutput.buffers[0]];
+data = sharedBuffers[ notification.eventData.inputoutput.buffers[0] ];
 ```
 
 the received data might span several buffers, so a user client should use `notification.eventData.inputoutput.dataSize` and `sharedBuffersSize[]` to fetch data or until `notification.eventData.inputoutput.buffers[i] == UINT8_MAX` which is the terminating value for buffers sequence.
