@@ -235,13 +235,13 @@ For example a user mode client can map the kernel buffers to its address space b
     }
 ```
 
-When an event is received it can access a buffer with data as
+When an event is received the user client can access a buffer with data as
 
 ```
 data = sharedBuffers[ notification.eventData.inputoutput.buffers[0] ];
 ```
 
-the received data might span several buffers, so a user client should use `notification.eventData.inputoutput.dataSize` and `sharedBuffersSize[]` to fetch data or until `notification.eventData.inputoutput.buffers[i] == UINT8_MAX` which is the terminating value for buffers sequence.
+the received data might span several buffers, so the user client should use `notification.eventData.inputoutput.dataSize` and `sharedBuffersSize[]` to fetch data or until `notification.eventData.inputoutput.buffers[i] == UINT8_MAX` which is the terminating value for buffers sequence.
 
 
 ##Filter loading
