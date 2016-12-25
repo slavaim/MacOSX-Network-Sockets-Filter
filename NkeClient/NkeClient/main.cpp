@@ -58,13 +58,8 @@ NkeSocketHandler(io_connect_t connection)
     uint32_t            dataSize;
     IODataQueueMemory  *queueMappedMemory;
     vm_size_t           queueMappedMemorySize;
-#if !__LP64__ || defined(IOCONNECT_MAPMEMORY_10_6)
-    vm_address_t        address = nil;
-    vm_size_t           size = 0;
-#else
     mach_vm_address_t   address = NULL;
     mach_vm_size_t      size = 0x0;
-#endif
     mach_port_t         recvPort;
     mach_vm_address_t   sharedBuffers[ kt_NkeSocketBuffersNumber ];
     mach_vm_size_t      sharedBuffersSize[ kt_NkeSocketBuffersNumber ];
@@ -74,7 +69,13 @@ NkeSocketHandler(io_connect_t connection)
     //
     if (!(recvPort = IODataQueueAllocateNotificationPort())) {
         printf("failed to allocate notification port\n");
-        return kIOReturnError;
+        kr = kIOReturnError;
+        goto exit;
+    }
+    
+    for( int i = 0; i < kt_NkeSocketBuffersNumber; ++i ){
+        sharedBuffers[ i ] = NULL;
+        sharedBuffersSize[ i ] = 0;
     }
     
     for( int i = 0; i < kt_NkeSocketBuffersNumber; ++i ){
@@ -88,7 +89,7 @@ NkeSocketHandler(io_connect_t connection)
         
         if (kr != kIOReturnSuccess) {
             printf("failed to map memory (%d)\n",kr);
-            return kIOReturnError;
+            goto exit;
         }
     }
 
@@ -100,8 +101,7 @@ NkeSocketHandler(io_connect_t connection)
     if (kr != kIOReturnSuccess) {
         
         printf("failed to register notification port (%d)\n", kr);
-        mach_port_destroy(mach_task_self(), recvPort);
-        return kr;
+        goto exit;
     }
     
     //
@@ -115,8 +115,7 @@ NkeSocketHandler(io_connect_t connection)
                             kIOMapAnywhere );
     if (kr != kIOReturnSuccess) {
         printf("failed to map memory (%d)\n",kr);
-        mach_port_destroy(mach_task_self(), recvPort);
-        return kr;
+        goto exit;
     }
     
     queueMappedMemory = (IODataQueueMemory *)address;
@@ -194,15 +193,34 @@ NkeSocketHandler(io_connect_t connection)
     
 exit:
     
-    kr = IOConnectUnmapMemory( connection,
-                              kt_NkeNotifyTypeSocketFilter,
-                              mach_task_self(),
-                              address );
-    if (kr != kIOReturnSuccess){
-        printf("failed to unmap memory (%d)\n", kr);
+    for( int i = 0; i < kt_NkeSocketBuffersNumber; ++i ){
+        
+        if( ! sharedBuffers[ i ] )
+            continue;
+        
+        kr = IOConnectUnmapMemory( connection,
+                                   kt_NkeAclTypeSocketDataBase + i,
+                                   mach_task_self(),
+                                   sharedBuffers[ i ] );
+        if (kr != kIOReturnSuccess){
+            printf("failed to unmap memory (%d)\n", kr);
+        }
+        
     }
     
-    mach_port_destroy(mach_task_self(), recvPort);
+    if( address ){
+        
+        kr = IOConnectUnmapMemory( connection,
+                                  kt_NkeNotifyTypeSocketFilter,
+                                  mach_task_self(),
+                                  address );
+        if (kr != kIOReturnSuccess){
+            printf("failed to unmap memory (%d)\n", kr);
+        }
+    }
+    
+    if( recvPort )
+        mach_port_destroy(mach_task_self(), recvPort);
     
     return kr;
 }
