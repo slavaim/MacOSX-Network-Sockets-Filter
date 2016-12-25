@@ -171,7 +171,7 @@ The filter allocates a set of buffers to retain deferred data.
     } // end for
 ```
 
-This buffer indices are provided to a user mode client with each data notification as `notification.eventData.inputoutput.buffers` array that contains indicies of buffers with data for a request. The buffers are shared with the user mode client by calling `IOConnectMapMemory` with `kt_NkeAclTypeSocketDataBase+index` where indes is in the range `[0,kt_NkeSocketBuffersNumber - 1]` , this results in calling the filter's `NkeIOUserClient::clientMemoryForType` 
+This buffer indices are provided to a user mode client with each data notification as `notification.eventData.inputoutput.buffers` array that contains indicies of buffers with data for a request. The buffers are shared with the user mode client by calling `IOConnectMapMemory` with `kt_NkeAclTypeSocketDataBase+index` where the index is in the range `[0,kt_NkeSocketBuffersNumber - 1]` , this results in calling the filter's `NkeIOUserClient::clientMemoryForType` 
 
 ```
 IOReturn
