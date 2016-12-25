@@ -81,7 +81,8 @@ NkeSocketHandler(io_connect_t connection)
     for( int i = 0; i < kt_NkeSocketBuffersNumber; ++i ){
       
         //
-        // map the kernel data buffers into this process address space
+        // map the kernel data buffers into this process address space,
+        // this will call clientMemoryForType() inside our user client class
         //
         kr = IOConnectMapMemory( connection,
                                  kt_NkeAclTypeSocketDataBase + i,
@@ -108,7 +109,8 @@ NkeSocketHandler(io_connect_t connection)
     }
     
     //
-    // this will call clientMemoryForType() inside our user client class
+    // map a buffer used to deliver events from the filter, a data queue is implemented over it,
+    // this will call clientMemoryForType() inside our user client class,
     //
     kr = IOConnectMapMemory( connection,
                             kt_NkeNotifyTypeSocketFilter,
