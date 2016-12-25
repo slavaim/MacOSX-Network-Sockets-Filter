@@ -1,0 +1,360 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F9C232641E0F92C200A9DDB6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9C232621E0F92C200A9DDB6 /* InfoPlist.strings */; };
+		F9C232671E0F92C200A9DDB6 /* NetworkKernelExtension.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9C232661E0F92C200A9DDB6 /* NetworkKernelExtension.cpp */; };
+		F9C232741E0F935100A9DDB6 /* NkeDataBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9C2326E1E0F935100A9DDB6 /* NkeDataBuffer.cpp */; };
+		F9C232751E0F935100A9DDB6 /* NkeDataBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C2326F1E0F935100A9DDB6 /* NkeDataBuffer.h */; };
+		F9C232761E0F935100A9DDB6 /* NkeSocketFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9C232701E0F935100A9DDB6 /* NkeSocketFilter.cpp */; };
+		F9C232771E0F935100A9DDB6 /* NkeSocketFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C232711E0F935100A9DDB6 /* NkeSocketFilter.h */; };
+		F9C232781E0F935100A9DDB6 /* NkeSocketObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9C232721E0F935100A9DDB6 /* NkeSocketObject.cpp */; };
+		F9C232791E0F935100A9DDB6 /* NkeSocketObject.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C232731E0F935100A9DDB6 /* NkeSocketObject.h */; };
+		F9C2327C1E0F93D700A9DDB6 /* NkeCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C2327A1E0F93D700A9DDB6 /* NkeCommon.h */; };
+		F9C2327D1E0F93D700A9DDB6 /* NkeUserToKernel.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C2327B1E0F93D700A9DDB6 /* NkeUserToKernel.h */; };
+		F9C2327F1E0F959000A9DDB6 /* NkeIOUserClientRef.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C2327E1E0F959000A9DDB6 /* NkeIOUserClientRef.h */; };
+		F9C232821E0F959A00A9DDB6 /* NkeIOUserClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F9C232801E0F959A00A9DDB6 /* NkeIOUserClient.cpp */; };
+		F9C232831E0F959A00A9DDB6 /* NkeIOUserClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C232811E0F959A00A9DDB6 /* NkeIOUserClient.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F9C2325A1E0F92C200A9DDB6 /* NetworkKernelExtension.kext */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NetworkKernelExtension.kext; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9C2325E1E0F92C200A9DDB6 /* Kernel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kernel.framework; path = System/Library/Frameworks/Kernel.framework; sourceTree = SDKROOT; };
+		F9C232611E0F92C200A9DDB6 /* NetworkKernelExtension-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NetworkKernelExtension-Info.plist"; sourceTree = "<group>"; };
+		F9C232631E0F92C200A9DDB6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F9C232651E0F92C200A9DDB6 /* NetworkKernelExtension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkKernelExtension.h; sourceTree = "<group>"; };
+		F9C232661E0F92C200A9DDB6 /* NetworkKernelExtension.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkKernelExtension.cpp; sourceTree = "<group>"; };
+		F9C232681E0F92C200A9DDB6 /* NetworkKernelExtension-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NetworkKernelExtension-Prefix.pch"; sourceTree = "<group>"; };
+		F9C2326E1E0F935100A9DDB6 /* NkeDataBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NkeDataBuffer.cpp; sourceTree = "<group>"; };
+		F9C2326F1E0F935100A9DDB6 /* NkeDataBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NkeDataBuffer.h; sourceTree = "<group>"; };
+		F9C232701E0F935100A9DDB6 /* NkeSocketFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NkeSocketFilter.cpp; sourceTree = "<group>"; };
+		F9C232711E0F935100A9DDB6 /* NkeSocketFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NkeSocketFilter.h; sourceTree = "<group>"; };
+		F9C232721E0F935100A9DDB6 /* NkeSocketObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NkeSocketObject.cpp; sourceTree = "<group>"; };
+		F9C232731E0F935100A9DDB6 /* NkeSocketObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NkeSocketObject.h; sourceTree = "<group>"; };
+		F9C2327A1E0F93D700A9DDB6 /* NkeCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NkeCommon.h; sourceTree = "<group>"; };
+		F9C2327B1E0F93D700A9DDB6 /* NkeUserToKernel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NkeUserToKernel.h; sourceTree = "<group>"; };
+		F9C2327E1E0F959000A9DDB6 /* NkeIOUserClientRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NkeIOUserClientRef.h; sourceTree = "<group>"; };
+		F9C232801E0F959A00A9DDB6 /* NkeIOUserClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NkeIOUserClient.cpp; sourceTree = "<group>"; };
+		F9C232811E0F959A00A9DDB6 /* NkeIOUserClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NkeIOUserClient.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F9C232551E0F92C200A9DDB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F9C2324F1E0F92C200A9DDB6 = {
+			isa = PBXGroup;
+			children = (
+				F9C2325F1E0F92C200A9DDB6 /* NetworkKernelExtension */,
+				F9C2325C1E0F92C200A9DDB6 /* Frameworks */,
+				F9C2325B1E0F92C200A9DDB6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F9C2325B1E0F92C200A9DDB6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2325A1E0F92C200A9DDB6 /* NetworkKernelExtension.kext */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F9C2325C1E0F92C200A9DDB6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2325D1E0F92C200A9DDB6 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F9C2325D1E0F92C200A9DDB6 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2325E1E0F92C200A9DDB6 /* Kernel.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		F9C2325F1E0F92C200A9DDB6 /* NetworkKernelExtension */ = {
+			isa = PBXGroup;
+			children = (
+				F9C232801E0F959A00A9DDB6 /* NkeIOUserClient.cpp */,
+				F9C232811E0F959A00A9DDB6 /* NkeIOUserClient.h */,
+				F9C2327E1E0F959000A9DDB6 /* NkeIOUserClientRef.h */,
+				F9C2327A1E0F93D700A9DDB6 /* NkeCommon.h */,
+				F9C2327B1E0F93D700A9DDB6 /* NkeUserToKernel.h */,
+				F9C2326E1E0F935100A9DDB6 /* NkeDataBuffer.cpp */,
+				F9C2326F1E0F935100A9DDB6 /* NkeDataBuffer.h */,
+				F9C232701E0F935100A9DDB6 /* NkeSocketFilter.cpp */,
+				F9C232711E0F935100A9DDB6 /* NkeSocketFilter.h */,
+				F9C232721E0F935100A9DDB6 /* NkeSocketObject.cpp */,
+				F9C232731E0F935100A9DDB6 /* NkeSocketObject.h */,
+				F9C232651E0F92C200A9DDB6 /* NetworkKernelExtension.h */,
+				F9C232661E0F92C200A9DDB6 /* NetworkKernelExtension.cpp */,
+				F9C232601E0F92C200A9DDB6 /* Supporting Files */,
+			);
+			path = NetworkKernelExtension;
+			sourceTree = "<group>";
+		};
+		F9C232601E0F92C200A9DDB6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F9C232611E0F92C200A9DDB6 /* NetworkKernelExtension-Info.plist */,
+				F9C232621E0F92C200A9DDB6 /* InfoPlist.strings */,
+				F9C232681E0F92C200A9DDB6 /* NetworkKernelExtension-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		F9C232561E0F92C200A9DDB6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9C232831E0F959A00A9DDB6 /* NkeIOUserClient.h in Headers */,
+				F9C232771E0F935100A9DDB6 /* NkeSocketFilter.h in Headers */,
+				F9C232791E0F935100A9DDB6 /* NkeSocketObject.h in Headers */,
+				F9C2327C1E0F93D700A9DDB6 /* NkeCommon.h in Headers */,
+				F9C232751E0F935100A9DDB6 /* NkeDataBuffer.h in Headers */,
+				F9C2327D1E0F93D700A9DDB6 /* NkeUserToKernel.h in Headers */,
+				F9C2327F1E0F959000A9DDB6 /* NkeIOUserClientRef.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		F9C232591E0F92C200A9DDB6 /* NetworkKernelExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F9C2326B1E0F92C200A9DDB6 /* Build configuration list for PBXNativeTarget "NetworkKernelExtension" */;
+			buildPhases = (
+				F9C232541E0F92C200A9DDB6 /* Sources */,
+				F9C232551E0F92C200A9DDB6 /* Frameworks */,
+				F9C232561E0F92C200A9DDB6 /* Headers */,
+				F9C232571E0F92C200A9DDB6 /* Resources */,
+				F9C232581E0F92C200A9DDB6 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NetworkKernelExtension;
+			productName = NetworkKernelExtension;
+			productReference = F9C2325A1E0F92C200A9DDB6 /* NetworkKernelExtension.kext */;
+			productType = "com.apple.product-type.kernel-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F9C232501E0F92C200A9DDB6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Slava-Imameev";
+			};
+			buildConfigurationList = F9C232531E0F92C200A9DDB6 /* Build configuration list for PBXProject "NetworkKernelExtension" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F9C2324F1E0F92C200A9DDB6;
+			productRefGroup = F9C2325B1E0F92C200A9DDB6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F9C232591E0F92C200A9DDB6 /* NetworkKernelExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F9C232571E0F92C200A9DDB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9C232641E0F92C200A9DDB6 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		F9C232581E0F92C200A9DDB6 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F9C232541E0F92C200A9DDB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9C232781E0F935100A9DDB6 /* NkeSocketObject.cpp in Sources */,
+				F9C232741E0F935100A9DDB6 /* NkeDataBuffer.cpp in Sources */,
+				F9C232821E0F959A00A9DDB6 /* NkeIOUserClient.cpp in Sources */,
+				F9C232671E0F92C200A9DDB6 /* NetworkKernelExtension.cpp in Sources */,
+				F9C232761E0F935100A9DDB6 /* NkeSocketFilter.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F9C232621E0F92C200A9DDB6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F9C232631E0F92C200A9DDB6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F9C232691E0F92C200A9DDB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					DBG,
+					MACH_ASSERT,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F9C2326A1E0F92C200A9DDB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F9C2326C1E0F92C200A9DDB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NetworkKernelExtension/NetworkKernelExtension-Prefix.pch";
+				INFOPLIST_FILE = "NetworkKernelExtension/NetworkKernelExtension-Info.plist";
+				MODULE_NAME = "Slava-Imameev.NetworkKernelExtension";
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Debug;
+		};
+		F9C2326D1E0F92C200A9DDB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1.0.0d1;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NetworkKernelExtension/NetworkKernelExtension-Prefix.pch";
+				INFOPLIST_FILE = "NetworkKernelExtension/NetworkKernelExtension-Info.plist";
+				MODULE_NAME = "Slava-Imameev.NetworkKernelExtension";
+				MODULE_VERSION = 1.0.0d1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = kext;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F9C232531E0F92C200A9DDB6 /* Build configuration list for PBXProject "NetworkKernelExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9C232691E0F92C200A9DDB6 /* Debug */,
+				F9C2326A1E0F92C200A9DDB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9C2326B1E0F92C200A9DDB6 /* Build configuration list for PBXNativeTarget "NetworkKernelExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F9C2326C1E0F92C200A9DDB6 /* Debug */,
+				F9C2326D1E0F92C200A9DDB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F9C232501E0F92C200A9DDB6 /* Project object */;
+}
