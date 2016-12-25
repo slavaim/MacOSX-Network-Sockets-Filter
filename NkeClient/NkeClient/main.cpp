@@ -8,6 +8,11 @@
 #include <iostream>
 #include "NkeConnection.h"
 
+//
+// THIS IS A TEST APPLICATION.
+// For a real world application a more accurate errors processing must be implemented.
+//
+
 //-------------------------------------------------------------
 
 IOReturn
@@ -44,6 +49,8 @@ int main(int argc, const char * argv[])
 
 //-------------------------------------------------------------
 
+int min( int a, int b ) { return a<b ? a : b ;}
+
 IOReturn
 NkeSocketHandler(io_connect_t connection)
 {
@@ -59,6 +66,8 @@ NkeSocketHandler(io_connect_t connection)
     mach_vm_size_t      size = 0x0;
 #endif
     mach_port_t         recvPort;
+    mach_vm_address_t   sharedBuffers[ kt_NkeSocketBuffersNumber ];
+    mach_vm_size_t      sharedBuffersSize[ kt_NkeSocketBuffersNumber ];
     
     //
     // allocate a Mach port to receive notifications from the IODataQueue
@@ -67,6 +76,22 @@ NkeSocketHandler(io_connect_t connection)
         printf("failed to allocate notification port\n");
         return kIOReturnError;
     }
+    
+    for( int i = 0; i < kt_NkeSocketBuffersNumber; ++i ){
+      
+        kr = IOConnectMapMemory( connection,
+                                 kt_NkeAclTypeSocketDataBase + i,
+                                 mach_task_self(),
+                                 &sharedBuffers[ i ],
+                                 &sharedBuffersSize[ i ],
+                                 kIOMapAnywhere );
+        
+        if (kr != kIOReturnSuccess) {
+            printf("failed to map memory (%d)\n",kr);
+            return kIOReturnError;
+        }
+    }
+
     
     //
     // this will call registerNotificationPort() inside our user client class
@@ -112,7 +137,7 @@ NkeSocketHandler(io_connect_t connection)
             dataSize = sizeof(notification);
             
             //
-            // get the event header, the provided buffer is not big enough for data, so data will be jettisoned
+            // get the event descriptor
             //
             kr = IODataQueueDequeue(queueMappedMemory, &notification, &dataSize);
             if (kr == kIOReturnSuccess) {
@@ -120,6 +145,13 @@ NkeSocketHandler(io_connect_t connection)
                 printf("NKE event: %s\n", NkeEventToString( notification.event ) );
                 
                 if( notification.event == NkeSocketFilterEventDataIn || notification.event == NkeSocketFilterEventDataOut ){
+                    
+                    //
+                    // print the first bytes as a string, sometimes you can see a human readable data, like HTTP headers
+                    //
+                    if( notification.eventData.inputoutput.dataSize && notification.eventData.inputoutput.buffers[0] < kt_NkeSocketBuffersNumber ){
+                        printf("%.*s\n", min(120, notification.eventData.inputoutput.dataSize), (char*)sharedBuffers[notification.eventData.inputoutput.buffers[0]]);
+                    }
                     
                     //
                     // create a response
