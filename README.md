@@ -153,6 +153,59 @@ A user client receives notifications asynchronously while data has been made pen
 
 Similarly an asynchronous or synchronous processing can be implemented for other callbacks.
 
+## Data sharing between user and kernel mode parts
+
+The filter allocates a set of buffers to retain deferred data.
+
+```
+    //
+    // create the buffers
+    //
+    for( int i = 0x0; i < newFilter->dataBuffers->getCapacity(); ++i ){
+        
+        //
+        // create a buffer, in case of 40 buffers each one will be of 64 KB size
+        //
+        NkeDataBuffer*  dataBuffer = NkeDataBuffer::withSize( 0x280000/kt_NkeSocketBuffersNumber, (UInt32)i );
+       ....
+    } // end for
+```
+
+This buffer indices are provided to a user mode client with each data notification as `notification.eventData.inputoutput.buffers` array that contains indicies of buffers with data for a request. The buffers are shared with the user mode client by calling `IOConnectMapMemory` with `kt_NkeAclTypeSocketDataBase+index` where indes is in the range `[0,kt_NkeSocketBuffersNumber - 1]` , this results in calling the filter's `NkeIOUserClient::clientMemoryForType` 
+
+```
+IOReturn
+NkeIOUserClient::clientMemoryForType( __in UInt32 type, __in IOOptionBits *options,
+                                      __in IOMemoryDescriptor **memory)
+{
+    *memory = NULL;
+    *options = 0;
+    
+    //
+    // check for socket data notification type
+    //
+    if( type >= (UInt32)kt_NkeAclTypeSocketDataBase && type < (UInt32)(kt_NkeAclTypeSocketDataBase + kt_NkeSocketBuffersNumber) ){
+        
+        if( ! gSocketFilter )
+            return kIOReturnNoMemory;
+        
+        IOMemoryDescriptor* memoryDescr = gSocketFilter->getSocketBufferMemoryDescriptor( (UInt32)( type - kt_NkeAclTypeSocketDataBase ) );
+        if( NULL == memoryDescr ){
+            
+            //
+            // in most of the cases this is not an error, the buffer for the index doesn't exist,
+            // but we cannot tell a caller that the buffer just doesn't exist so return an error,
+            // a caller should ignor the error and continue execution
+            //
+            return kIOReturnNoDevice;
+        }
+        
+        *memory = memoryDescr;
+        return kIOReturnSuccess;
+    }
+...
+}
+```
 
 ##Filter loading
 
