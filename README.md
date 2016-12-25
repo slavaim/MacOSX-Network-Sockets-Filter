@@ -14,7 +14,7 @@ The project contains a NKE(Network Kernel Extension) module and a user mode clie
 
 This is a MacOS network sockets filter, aka Network Kernel Extension(NKE). You can read more about NKE architecture here `https://developer.apple.com/library/content/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html`.
 
-The filter is able to inject modified data into socket's data stream. Data can be modified by a usermode application of filter itself.
+The filter is able to defer and then inject modified data into socket's data stream. Data can be modified by a usermode application of filter itself.
 For data stream injection implemntation look at
 ```
 void
