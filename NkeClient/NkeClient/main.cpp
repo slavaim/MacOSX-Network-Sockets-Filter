@@ -35,7 +35,7 @@ int main(int argc, const char * argv[])
 
     int ret = pthread_create(&nkeSocketThread, (pthread_attr_t *)0,
                             (void* (*)(void*))NkeSocketHandler, (void *)connection);
-    if (ret){
+    if( ret ){
         perror("pthread_create( SocketNotificationHandler )");
         nkeSocketThread = NULL;
     }
@@ -67,7 +67,7 @@ NkeSocketHandler(io_connect_t connection)
     //
     // allocate a Mach port to receive notifications from the IODataQueue
     //
-    if (!(recvPort = IODataQueueAllocateNotificationPort())) {
+    if( !( recvPort = IODataQueueAllocateNotificationPort() ) ){
         printf("failed to allocate notification port\n");
         kr = kIOReturnError;
         goto exit;
@@ -91,7 +91,7 @@ NkeSocketHandler(io_connect_t connection)
                                  &sharedBuffersSize[ i ],
                                  kIOMapAnywhere );
         
-        if (kr != kIOReturnSuccess) {
+        if( kr != kIOReturnSuccess ){
             printf("failed to map memory (%d)\n",kr);
             goto exit;
         }
@@ -102,7 +102,7 @@ NkeSocketHandler(io_connect_t connection)
     // this will call registerNotificationPort() inside our user client class
     //
     kr = IOConnectSetNotificationPort(connection, kt_NkeNotifyTypeSocketFilter, recvPort, 0);
-    if (kr != kIOReturnSuccess) {
+    if( kr != kIOReturnSuccess ){
         
         printf("failed to register notification port (%d)\n", kr);
         goto exit;
@@ -118,7 +118,7 @@ NkeSocketHandler(io_connect_t connection)
                             &address,
                             &size,
                             kIOMapAnywhere );
-    if (kr != kIOReturnSuccess) {
+    if( kr != kIOReturnSuccess ){
         printf("failed to map memory (%d)\n",kr);
         goto exit;
     }
@@ -135,7 +135,7 @@ NkeSocketHandler(io_connect_t connection)
         //first_iteration = false;
         //printf("a buffer has been received\n");//do not call as it stalls the queue!
         
-        while (IODataQueueDataAvailable(queueMappedMemory)) {
+        while( IODataQueueDataAvailable(queueMappedMemory) ){
             
             NkeSocketFilterNotification notification;
             dataSize = sizeof(notification);
@@ -144,7 +144,7 @@ NkeSocketHandler(io_connect_t connection)
             // get the event descriptor
             //
             kr = IODataQueueDequeue(queueMappedMemory, &notification, &dataSize);
-            if (kr == kIOReturnSuccess) {
+            if( kr == kIOReturnSuccess ){
                 
                 printf("NKE event: %s\n", NkeEventToString( notification.event ) );
                 
@@ -161,7 +161,7 @@ NkeSocketHandler(io_connect_t connection)
                     // create a response
                     //
                     NkeSocketFilterServiceResponse   response;
-                    bzero( &response, sizeof( response ) );
+                    bzero(&response, sizeof( response ));
                     
                     memcpy( response.buffersToRelease, notification.eventData.inputoutput.buffers, sizeof( response.buffersToRelease ) );
                     response.property[ 0 ].type = NkeSocketDataPropertyTypePermission;
@@ -207,7 +207,7 @@ exit:
                                    kt_NkeAclTypeSocketDataBase + i,
                                    mach_task_self(),
                                    sharedBuffers[ i ] );
-        if (kr != kIOReturnSuccess){
+        if( kr != kIOReturnSuccess ){
             printf("failed to unmap memory (%d)\n", kr);
         }
         
@@ -219,7 +219,7 @@ exit:
                                   kt_NkeNotifyTypeSocketFilter,
                                   mach_task_self(),
                                   address );
-        if (kr != kIOReturnSuccess){
+        if( kr != kIOReturnSuccess ){
             printf("failed to unmap memory (%d)\n", kr);
         }
     }
@@ -232,7 +232,7 @@ exit:
 
 const char* NkeEventToString( NkeSocketFilterEvent event )
 {
-    switch(event)
+    switch( event )
     {
         case NkeSocketFilterEventUnknown: return "NkeSocketFilterEventUnknown";
         case NkeSocketFilterEventConnected: return "NkeSocketFilterEventConnected";
