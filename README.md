@@ -211,7 +211,7 @@ NkeIOUserClient::clientMemoryForType( __in UInt32 type, __in IOOptionBits *optio
 }
 ```
 
-For example the user mode client can map the kernel buffers to its address space by executing the following code
+For example a user mode client can map the kernel buffers to its address space by executing the following code
 
 ```
     mach_vm_address_t   sharedBuffers[ kt_NkeSocketBuffersNumber ];
