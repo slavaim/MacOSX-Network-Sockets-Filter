@@ -4,10 +4,6 @@
 
 The license model is a BSD Open Source License. This is a non-viral license, only asking that if you use it, you acknowledge the authors, in this case Slava Imameev.
 
-comments and ideas have been borrowed from Apple's tcplognke
- https://developer.apple.com/library/content/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html
- https://github.com/gdbinit/tcplognke
-
 Some NKE's project code commentary and ideas have been borrowed from Apple's tcplognke example. The code for tcplognke can be found here https://github.com/gdbinit/tcplognke .
 
 ##Directories structure
