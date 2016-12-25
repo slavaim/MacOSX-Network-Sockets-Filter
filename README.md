@@ -4,21 +4,21 @@
 
 The license model is a BSD Open Source License. This is a non-viral license, only asking that if you use it, you acknowledge the authors, in this case Slava Imameev.
 
-comments and ideas have been borrowed from Apple's tcplognke
- https://developer.apple.com/library/content/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html
- https://github.com/gdbinit/tcplognke
-
 Some NKE's project code commentary and ideas have been borrowed from Apple's tcplognke example. The code for tcplognke can be found here https://github.com/gdbinit/tcplognke .
 
 ##Directories structure
 
-The project contains a NKE(Network Kernel Extension) module and a user mode client to communicate with the NKE.  
-NKE directory contains a project for the kernel extension.  
-NkeClient directory contains a project for a usermode client that responses to the NKE immediately without data inspection. The user client prints received events to console output.  
+The project contains a NKE(Network Kernel Extension) module and a user mode client to communicate with the NKE filter. The NKE directory contains a project for the kernel extension. The NkeClient directory contains a project for a usermode client that responses to the NKE immediately without data inspection. The user client prints received events to console output.  
 
 ##Design
 
 This is a MacOS network sockets filter, aka Network Kernel Extension(NKE). You can read more about NKE architecture here `https://developer.apple.com/library/content/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html`.
+
+The filter is able to defer and then inject modified data into socket's data stream. Data can be modified by a usermode application of filter itself. This mechanism allows to implement data flow analysis in a user mode application. For data stream injection implementation look at
+```
+void
+NkeSocketObject::InjectionThreadRoutine( void* context )
+```
 
 The filter registers IPv4 and IPv6 callbacks
 
@@ -114,7 +114,7 @@ Below is an example of a call stack when data is received from network
     frame #12: 0xffffff8020fafebe kernel`dlil_input_thread_func(v=0xffffff802d931328, w=<unavailable>) + 254 at dlil.c:1873
 ```
 
-Then the filter notifies a usermode client waits in `NkeSocketObject::FltData` for a response from the client
+Then the filter creates a notification event for a usermode client and waits in `NkeSocketObject::FltData` for a response from `NkeSocketObject::DeliverWaitingNotifications` that delivers notifications to a usermode client and makes data packets pending.
 
 ```
 errno_t	
@@ -149,8 +149,63 @@ NkeSocketObject::FltData(
 }
 ```
 
-Similarly a synchronous processing can be implemented for other callbacks.
+A user client receives notifications asynchronously while data has been made pending in a queue. The user client inspects or modifies data. Then user client sends `kt_NkeUserClientSocketFilterResponse` to inject modified data into the stream.
 
+Similarly an asynchronous or synchronous processing can be implemented for other callbacks.
+
+## Data sharing between user and kernel mode parts
+
+The filter allocates a set of buffers to retain deferred data.
+
+```
+    //
+    // create the buffers
+    //
+    for( int i = 0x0; i < newFilter->dataBuffers->getCapacity(); ++i ){
+        
+        //
+        // create a buffer, in case of 40 buffers each one will be of 64 KB size
+        //
+        NkeDataBuffer*  dataBuffer = NkeDataBuffer::withSize( 0x280000/kt_NkeSocketBuffersNumber, (UInt32)i );
+       ....
+    } // end for
+```
+
+This buffer indices are provided to a user mode client with each data notification as `notification.eventData.inputoutput.buffers` array that contains indicies of buffers with data for a request. The buffers are shared with the user mode client by calling `IOConnectMapMemory` with `kt_NkeAclTypeSocketDataBase+index` where the index is in the range `[0,kt_NkeSocketBuffersNumber - 1]` , this results in calling the filter's `NkeIOUserClient::clientMemoryForType` 
+
+```
+IOReturn
+NkeIOUserClient::clientMemoryForType( __in UInt32 type, __in IOOptionBits *options,
+                                      __in IOMemoryDescriptor **memory)
+{
+    *memory = NULL;
+    *options = 0;
+    
+    //
+    // check for socket data notification type
+    //
+    if( type >= (UInt32)kt_NkeAclTypeSocketDataBase && type < (UInt32)(kt_NkeAclTypeSocketDataBase + kt_NkeSocketBuffersNumber) ){
+        
+        if( ! gSocketFilter )
+            return kIOReturnNoMemory;
+        
+        IOMemoryDescriptor* memoryDescr = gSocketFilter->getSocketBufferMemoryDescriptor( (UInt32)( type - kt_NkeAclTypeSocketDataBase ) );
+        if( NULL == memoryDescr ){
+            
+            //
+            // in most of the cases this is not an error, the buffer for the index doesn't exist,
+            // but we cannot tell a caller that the buffer just doesn't exist so return an error,
+            // a caller should ignor the error and continue execution
+            //
+            return kIOReturnNoDevice;
+        }
+        
+        *memory = memoryDescr;
+        return kIOReturnSuccess;
+    }
+...
+}
+```
 
 ##Filter loading
 
