@@ -8,9 +8,7 @@ Some NKE's project code commentary and ideas have been borrowed from Apple's tcp
 
 ##Directories structure
 
-The project contains a NKE(Network Kernel Extension) module and a user mode client to communicate with the NKE.  
-NKE directory contains a project for the kernel extension.  
-NkeClient directory contains a project for a usermode client that responses to the NKE immediately without data inspection. The user client prints received events to console output.  
+The project contains a NKE(Network Kernel Extension) module and a user mode client to communicate with the NKE filter. The NKE directory contains a project for the kernel extension. The NkeClient directory contains a project for a usermode client that responses to the NKE immediately without data inspection. The user client prints received events to console output.  
 
 ##Design
 
