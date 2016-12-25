@@ -80,6 +80,9 @@ NkeSocketHandler(io_connect_t connection)
     
     for( int i = 0; i < kt_NkeSocketBuffersNumber; ++i ){
       
+        //
+        // map the kernel data buffers into this process address space
+        //
         kr = IOConnectMapMemory( connection,
                                  kt_NkeAclTypeSocketDataBase + i,
                                  mach_task_self(),
