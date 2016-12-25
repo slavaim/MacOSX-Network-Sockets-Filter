@@ -1,14 +1,17 @@
 # MacOSX-Network-Sockets-Filter
 
+
 ##License
 
 The license model is a BSD Open Source License. This is a non-viral license, only asking that if you use it, you acknowledge the authors, in this case Slava Imameev.
 
 Some NKE's project code commentary and ideas have been borrowed from Apple's tcplognke example. The code for tcplognke can be found here https://github.com/gdbinit/tcplognke .
 
+
 ##Directories structure
 
 The project contains a NKE(Network Kernel Extension) module and a user mode client to communicate with the NKE filter. The NKE directory contains a project for the kernel extension. The NkeClient directory contains a project for a usermode client that responses to the NKE immediately without data inspection. The user client prints received events to console output.  
+
 
 ##Design
 
@@ -153,6 +156,7 @@ A user client receives notifications asynchronously while data has been made pen
 
 Similarly an asynchronous or synchronous processing can be implemented for other callbacks.
 
+
 ## Data sharing between user and kernel mode parts
 
 The filter allocates a set of buffers to retain deferred data.
@@ -238,6 +242,7 @@ data = sharedBuffers[notification.eventData.inputoutput.buffers[0]];
 ```
 
 the received data might span several buffers, so a user client should use `notification.eventData.inputoutput.dataSize` and `sharedBuffersSize[]` to fetch data or until `notification.eventData.inputoutput.buffers[i] == UINT8_MAX` which is the terminating value for buffers sequence.
+
 
 ##Filter loading
 
