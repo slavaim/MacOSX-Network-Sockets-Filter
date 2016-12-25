@@ -114,7 +114,7 @@ Below is an example of a call stack when data is received from network
     frame #12: 0xffffff8020fafebe kernel`dlil_input_thread_func(v=0xffffff802d931328, w=<unavailable>) + 254 at dlil.c:1873
 ```
 
-Then the filter notifies a usermode client waits in `NkeSocketObject::FltData` for a response from the client
+Then the filter notifies a usermode client and waits in `NkeSocketObject::FltData` for a response from the client
 
 ```
 errno_t	
