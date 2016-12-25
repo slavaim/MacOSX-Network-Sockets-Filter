@@ -114,7 +114,7 @@ Below is an example of a call stack when data is received from network
     frame #12: 0xffffff8020fafebe kernel`dlil_input_thread_func(v=0xffffff802d931328, w=<unavailable>) + 254 at dlil.c:1873
 ```
 
-Then the filter notifies a usermode client and waits in `NkeSocketObject::FltData` for a response from the client
+Then the filter creates a notification event for a usermode client and waits in `NkeSocketObject::FltData` for a response from `NkeSocketObject::DeliverWaitingNotifications` that delivers notifications to a usermode client and makes data packets pending.
 
 ```
 errno_t	
@@ -149,7 +149,9 @@ NkeSocketObject::FltData(
 }
 ```
 
-Similarly a synchronous processing can be implemented for other callbacks.
+A user client receives notifications asynchronously while data has been made pending in a queue. Then user client sends `kt_NkeUserClientSocketFilterResponse` to reinject data into the stream.
+
+Similarly an asynchronous or synchronous processing can be implemented for other callbacks.
 
 
 ##Filter loading
