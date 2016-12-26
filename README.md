@@ -120,7 +120,7 @@ Below is an example of a call stack when data is received from network
     frame #12: 0xffffff8020fafebe kernel`dlil_input_thread_func(v=0xffffff802d931328, w=<unavailable>) + 254 at dlil.c:1873
 ```
 
-Then the filter creates a notification event for a usermode client and waits in `NkeSocketObject::FltData` for a response from `NkeSocketObject::DeliverWaitingNotifications` that delivers notifications to a usermode client and makes data packets pending.
+Then the filter copies data to kernel buffers shared with a user client, creates a notification event for a usermode client and waits in `NkeSocketObject::FltData` for a response from `NkeSocketObject::DeliverWaitingNotifications` that delivers notifications to a usermode client and makes data packets pending.
 
 ```
 errno_t	
@@ -134,7 +134,8 @@ NkeSocketObject::FltData(
     )
 {
 ....
-
+                error = gSocketFilter->copyDataToBuffers( mbuf, notification.eventData.inputoutput.buffers );
+....
                     error = userClient->socketFilterNotification( &notification );
                     
 ....
@@ -155,7 +156,7 @@ NkeSocketObject::FltData(
 }
 ```
 
-A user client receives notifications asynchronously while data has been made pending in a queue. The user client inspects or modifies data. Then user client sends `kt_NkeUserClientSocketFilterResponse` to inject modified data into the stream. The filter processes a response and injects data by calling `NkeSocketFilter::processServiceResponse` in the user client thread context
+A user client receives notifications asynchronously while data has been made pending in a queue. The user client inspects or modifies data. Then user client sends `kt_NkeUserClientSocketFilterResponse` to inject modified data into the stream, see below how to copy modified data to a socket stream as the current filter implementation doesn't do this. The filter processes a response and injects data by calling `NkeSocketFilter::processServiceResponse` in the user client thread context
 
 ```
 IOReturn
@@ -163,6 +164,8 @@ NkeSocketFilter::processServiceResponse(
     __in  NkeSocketFilterServiceResponse* response
     )
 {
+....
+    gSocketFilter->releaseDataBuffersAndDeliverNotifications( response->buffersToRelease );
 ....
                 soObj->setDeferredDataProperties( property );
                 soObj->reinjectDeferredData( NkeSocketObject::NkeSocketDataAll );
@@ -258,6 +261,10 @@ data = sharedBuffers[ notification.eventData.inputoutput.buffers[0] ];
 ```
 
 the received data might span several buffers, so the user client should use `notification.eventData.inputoutput.dataSize` and `sharedBuffersSize[]` to fetch data or until `notification.eventData.inputoutput.buffers[i] == UINT8_MAX` which is the terminating value for buffers sequence.
+
+##Injecting modified data
+
+It is important to understand that the buffers are shared between user mode client and the kernel mode filter(NKE) but not with a socket. If you want to inject modified data you should copy it from buffers to a deferred packet `struct _PendingPktQueueItem` when processing a client response in `NkeSocketFilter::processServiceResponse` before calling `gSocketFilter->releaseDataBuffersAndDeliverNotifications( response->buffersToRelease )`. Then a call to `soObj->reinjectDeferredData( NkeSocketObject::NkeSocketDataAll )` will inject modified data.
 
 
 ##Filter loading
