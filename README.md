@@ -264,7 +264,7 @@ the received data might span several buffers, so the user client should use `not
 
 ##Injecting modified data
 
-It is important to understand that the buffers are shared between user mode client and the kernel mode filter(NKE) but not with a socket. If you want to inject modified data you should copy it from buffers to a deferred packet `struct _PendingPktQueueItem` when processing a client response in `NkeSocketFilter::processServiceResponse` before calling `gSocketFilter->releaseDataBuffersAndDeliverNotifications( response->buffersToRelease )`. Then a call to `soObj->reinjectDeferredData( NkeSocketObject::NkeSocketDataAll )` will inject modified data.
+It is important to understand that the buffers are shared between a user mode client and the kernel mode filter(NKE) but not with a socket. If you want to inject modified data you should copy it from buffers to a deferred packet `struct _PendingPktQueueItem` when processing a client response in `NkeSocketFilter::processServiceResponse` before calling `gSocketFilter->releaseDataBuffersAndDeliverNotifications( response->buffersToRelease )`. Then a call to `soObj->reinjectDeferredData( NkeSocketObject::NkeSocketDataAll )` will inject modified data.
 
 
 ##Filter loading
