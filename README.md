@@ -155,7 +155,20 @@ NkeSocketObject::FltData(
 }
 ```
 
-A user client receives notifications asynchronously while data has been made pending in a queue. The user client inspects or modifies data. Then user client sends `kt_NkeUserClientSocketFilterResponse` to inject modified data into the stream.
+A user client receives notifications asynchronously while data has been made pending in a queue. The user client inspects or modifies data. Then user client sends `kt_NkeUserClientSocketFilterResponse` to inject modified data into the stream. The filter process a response and injects data by calling `NkeSocketFilter::processServiceResponse` in the user client thread context
+
+```
+IOReturn
+NkeSocketFilter::processServiceResponse(
+    __in  NkeSocketFilterServiceResponse* response
+    )
+{
+....
+                soObj->setDeferredDataProperties( property );
+                soObj->reinjectDeferredData( NkeSocketObject::NkeSocketDataAll );
+....
+}  
+```
 
 Similarly an asynchronous or synchronous processing can be implemented for other callbacks.
 
