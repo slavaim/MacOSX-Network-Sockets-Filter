@@ -1,19 +1,19 @@
 # MacOSX-Network-Sockets-Filter
 
 
-##License
+## License
 
 The license model is a BSD Open Source License. This is a non-viral license, only asking that if you use it, you acknowledge the authors, in this case Slava Imameev.
 
 Some NKE's project code commentary and ideas have been borrowed from Apple's tcplognke example. The code for tcplognke can be found here https://github.com/gdbinit/tcplognke .
 
 
-##Directories structure
+## Directories structure
 
 The project contains a NKE(Network Kernel Extension) module and a user mode client to communicate with the NKE filter. The NKE directory contains a project for the kernel extension. The NkeClient directory contains a project for a usermode client that replies to the NKE events/notifications. The user client prints received events to console output.  
 
 
-##Design
+## Design
 
 This is a MacOS network sockets filter, aka Network Kernel Extension(NKE). You can read more about NKE architecture here `https://developer.apple.com/library/content/documentation/Darwin/Conceptual/NKEConceptual/socket_nke/socket_nke.html`.
 
@@ -262,12 +262,12 @@ data = sharedBuffers[ notification.eventData.inputoutput.buffers[0] ];
 
 the received data might span several buffers, so the user client should use `notification.eventData.inputoutput.dataSize` and `sharedBuffersSize[]` to fetch data or until `notification.eventData.inputoutput.buffers[i] == UINT8_MAX` which is the terminating value for buffers sequence.
 
-##Injecting modified data
+## Injecting modified data
 
 It is important to understand that the buffers are shared between a user mode client and the kernel mode filter(NKE) but not with a socket. If you want to inject modified data you should copy it from buffers to a deferred packet `struct _PendingPktQueueItem` when processing a client response in `NkeSocketFilter::processServiceResponse` before calling `gSocketFilter->releaseDataBuffersAndDeliverNotifications( response->buffersToRelease )`. Then a call to `soObj->reinjectDeferredData( NkeSocketObject::NkeSocketDataAll )` will inject modified data.
 
 
-##Filter loading
+## Filter loading
 
 The filter module is loaded by kextload command. The user client connects to the filter IOKit object to receive events and process data.
 The filter blocks connections until a client is connected.
