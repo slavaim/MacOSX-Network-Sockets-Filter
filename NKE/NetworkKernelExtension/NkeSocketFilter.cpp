@@ -291,7 +291,7 @@ errno_t NkeSocketFilter::stopFilter()
         error = sflt_unregister( NKE_SOCK_FLT_HANDLE_IP4 );
         if( KERN_SUCCESS != error ){
             
-            DBG_PRINT_ERROR(("sflt_unregister( NKE_SOCK_FLT_HANDLE_IP4 ) failed with a statue = %d", error));
+            DBG_PRINT_ERROR(("sflt_unregister( NKE_SOCK_FLT_HANDLE_IP4 ) failed with a status = %d", error));
             return error;
         }
         
@@ -302,10 +302,10 @@ errno_t NkeSocketFilter::stopFilter()
     
     if( this->filterForIPv6IsRegistered ){
         
-        error = sflt_unregister( NKE_SOCK_FLT_HANDLE_IP4 );
+        error = sflt_unregister( NKE_SOCK_FLT_HANDLE_IP6 );
         if( KERN_SUCCESS != error ){
             
-            DBG_PRINT_ERROR(("sflt_unregister( NKE_SOCK_FLT_HANDLE_IP4 ) failed with a statue = %d", error));
+            DBG_PRINT_ERROR(("sflt_unregister( NKE_SOCK_FLT_HANDLE_IP6 ) failed with a status = %d", error));
             return error;
         }
         

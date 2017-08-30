@@ -84,6 +84,8 @@ void NkeDataBuffer::free()
         assert( 0x0 != this->size );
         IOFree( (void*)this->data, this->size );
     }
+
+    super::free();
 }
 
 //--------------------------------------------------------------------
